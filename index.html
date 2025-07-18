@@ -28,7 +28,13 @@
 			</header>
 			<!-- This section should be hidden by default and shown when there are todos -->
 			<section class="main" x-show="todos.length">
-				<input id="toggle-all" class="toggle-all" type="checkbox" />
+				<input
+					id="toggle-all"
+					class="toggle-all"
+					type="checkbox"
+					x-model="allComplete"
+					@change="toggleAllTodos()"
+				/>
 				<label for="toggle-all">Mark all as complete</label>
 				<ul class="todo-list">
 					<!-- These are here just to show the structure of the list items -->
@@ -74,28 +80,28 @@
 						<a
 							@click.prevent="filter = 'all'"
 							:class="{selected : filter==='all'}"
-							>All</a
+							>All (<span x-text="todos.length"></span>)</a
 						>
 					</li>
 					<li>
 						<a
 							@click.prevent="filter = 'active'"
 							:class="{selected : filter==='active'}"
-							>Active</a
+							>Active (<span x-text="active.length"></span>)</a
 						>
 					</li>
 					<li>
 						<a
 							@click.prevent="filter = 'completed'"
 							:class="{selected : filter==='completed'}"
-							>Completed</a
+							>Completed (<span x-text="completed.length"></span>)</a
 						>
 					</li>
 				</ul>
 				<!-- Hidden if no completed items are left ↓ -->
 				<button
 					x-show="completed.length"
-					@click="todos = active"
+					@click="clearCompleted()"
 					class="clear-completed"
 				>
 					Clear completed
